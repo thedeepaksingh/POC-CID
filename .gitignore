@@ -1,0 +1,34 @@
+# Root-level ignores
+node_modules/
+dist/
+.env
+.env.local
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js
+client-app/.next/
+client-app/out/
+client-app/node_modules/
+client-app/.env*
+client-app/.turbo/
+
+# NestJS
+server-app/dist/
+server-app/node_modules/
+server-app/.env*
+
+# Editor folders
+.vscode/
+.idea/
+
+# OS junk
+*.swp
+*.swo
