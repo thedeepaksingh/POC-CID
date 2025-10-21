@@ -4,7 +4,7 @@ import { Controller, Get, HttpException, HttpStatus, Logger } from '@nestjs/comm
 export class AppController {
   private readonly logger = new Logger(AppController.name);
 
-  @Get('ping')
+  @Get('api/ping')
   getPing(): string {
     try {
       this.logger.log('✅ /ping endpoint hit');

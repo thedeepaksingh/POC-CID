@@ -3,7 +3,7 @@ name: Build & Deploy to Azure Web App
 on:
   push:
     branches:
-      - main  # or your default branch
+      - main
 
 jobs:
   build-and-deploy:
@@ -19,30 +19,29 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
-      - name: ⚙️ Install dependencies (root)
-        run: npm install
+      # Optional if you have a root package.json
+      - name: ⚙️ Install root dependencies
+        run: npm install || true
 
-      - name: ⚙️ Install client dependencies
+      - name: ⚙️ Install and build client (Next.js)
         working-directory: ./client-app
-        run: npm install
-
-      - name: ⚙️ Install server dependencies
-        working-directory: ./server-app
-        run: npm install
-
-      - name: 🏗 Build Next.js (client)
-        working-directory: ./client-app
-        run: npm run build
-
-      - name: 🏗 Build NestJS (server)
-        working-directory: ./server-app
-        run: npm run build
-
-      - name: 🧩 Copy Next build into Nest dist
         run: |
-          mkdir -p server-app/dist/client
-          cp -r client-app/.next server-app/dist/client/.next
-          cp -r client-app/public server-app/dist/client/public
+          npm install
+          npm run build
+
+      - name: ⚙️ Install and build server (NestJS)
+        working-directory: ./server-app
+        run: |
+          npm install
+          npm run build
+
+      - name: 🧩 Copy client app into server app
+        run: |
+          mkdir -p server-app/client-app
+          cp -r client-app/.next server-app/client-app/.next
+          cp -r client-app/public server-app/client-app/public
+          cp client-app/package.json server-app/client-app/package.json
+          cp -r client-app/node_modules server-app/client-app/node_modules
 
       - name: ☁️ Deploy to Azure Web App
         uses: azure/webapps-deploy@v3

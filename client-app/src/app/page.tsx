@@ -9,7 +9,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('http://localhost:3001/ping');
+        const res = await fetch('http://localhost:3001/api/ping');
         if (!res.ok) throw new Error(`Server returned ${res.status}`);
         const text = await res.text();
         setData(text);
